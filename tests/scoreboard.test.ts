@@ -1,6 +1,6 @@
-import { Scoreboard } from "../src/scoreboard";
+import { Scoreboard } from '../src/scoreboard';
 
-describe("Football Scoreboard", () => {
+describe('Football Scoreboard', () => {
   let scoreboard: Scoreboard;
 
   beforeEach(() => {

@@ -1,3 +1,1 @@
-export class Scoreboard {
-
-}
+export class Scoreboard {}
