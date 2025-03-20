@@ -77,8 +77,23 @@ export class Scoreboard {
     this.matches = this.matches.filter((m) => !(m.home === home && m.away === away));
   }
 
+  /**
+   * Retrieves a sorted summary of ongoing matches.
+   * Matches are ordered by total score (highest first).
+   * If scores are the same, the most recent match is shown first.
+   * @returns An array of matches sorted by total score and recency.
+   */
   public getSummary(): Match[] {
-    return this.matches; // ToDo
+    return [...this.matches].sort((a, b) => {
+      const totalScoreA = a.homeScore + a.awayScore;
+      const totalScoreB = b.homeScore + b.awayScore;
+
+      if (totalScoreA === totalScoreB) {
+        return this.matches.indexOf(a) - this.matches.indexOf(b);
+      }
+
+      return totalScoreB - totalScoreA;
+    });
   }
 
   /**
