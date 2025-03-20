@@ -1,4 +1,4 @@
-import { Scoreboard } from '../src/scoreboard';
+import { Match, Scoreboard } from '../src/scoreboard';
 
 describe('Football Scoreboard', () => {
   let scoreboard: Scoreboard;
@@ -25,5 +25,28 @@ describe('Football Scoreboard', () => {
     expect(() => scoreboard.startMatch('Brazil', 'Argentina')).toThrow(
       'This match is already in progress.'
     );
+  });
+
+  test('should update the score of an ongoing match', () => {
+    scoreboard.startMatch('Mexico', 'Canada');
+    scoreboard.updateScore('Mexico', 'Canada', 2, 1);
+
+    const expected: Match[] = [{ home: 'Mexico', away: 'Canada', homeScore: 2, awayScore: 1 }];
+    expect(scoreboard.getSummary()).toEqual(expected);
+  });
+
+  test('should not allow negative or non-integer scores', () => {
+    scoreboard.startMatch('France', 'Germany');
+
+    expect(() => scoreboard.updateScore('France', 'Germany', -1, 2)).toThrow(
+      'Scores must be non-negative integers.'
+    );
+    expect(() => scoreboard.updateScore('France', 'Germany', 2.5, 2)).toThrow(
+      'Scores must be non-negative integers.'
+    );
+  });
+
+  test('should not allow updating scores for a non-existing match', () => {
+    expect(() => scoreboard.updateScore('USA', 'Canada', 1, 1)).toThrow('Match not found.');
   });
 });
