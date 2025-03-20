@@ -20,10 +20,15 @@ describe('Football Scoreboard', () => {
     );
   });
 
-  test('should not allow duplicate matches in progress', () => {
+  test('should not allow a team to participate in multiple ongoing matches', () => {
     scoreboard.startMatch('Brazil', 'Argentina');
-    expect(() => scoreboard.startMatch('Brazil', 'Argentina')).toThrow(
-      'This match is already in progress.'
+
+    expect(() => scoreboard.startMatch('Brazil', 'France')).toThrow(
+      'A team cannot participate in multiple ongoing matches.'
+    );
+
+    expect(() => scoreboard.startMatch('Italy', 'Argentina')).toThrow(
+      'A team cannot participate in multiple ongoing matches.'
     );
   });
 
