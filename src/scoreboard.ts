@@ -35,7 +35,33 @@ export class Scoreboard {
     this.matches.unshift({ home, away, homeScore: 0, awayScore: 0 });
   }
 
-  public updateScore(home: string, away: string, homeScore: number, awayScore: number): void {}
+  /**
+   * Updates the score of an ongoing match.
+   * @param home - The home team name.
+   * @param away - The away team name.
+   * @param homeScore - The new home team score (must be a non-negative integer).
+   * @param awayScore - The new away team score (must be a non-negative integer).
+   * @throws Error if scores are not non-negative integers.
+   * @throws Error if the match is not found.
+   */
+  public updateScore(home: string, away: string, homeScore: number, awayScore: number): void {
+    if (
+      !Number.isInteger(homeScore) ||
+      homeScore < 0 ||
+      !Number.isInteger(awayScore) ||
+      awayScore < 0
+    ) {
+      throw new Error('Scores must be non-negative integers.');
+    }
+
+    const match = this._findMatch(home, away);
+    if (!match) {
+      throw new Error('Match not found.');
+    }
+
+    match.homeScore = homeScore;
+    match.awayScore = awayScore;
+  }
 
   public finishMatch(home: string, away: string): void {}
 
