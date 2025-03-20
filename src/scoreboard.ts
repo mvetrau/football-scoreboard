@@ -21,15 +21,15 @@ export class Scoreboard {
    * @param home - The home team name.
    * @param away - The away team name.
    * @throws Error if the home and away teams are the same.
-   * @throws Error if the match is already in progress.
+   * @throws Error if a team is already participating in an ongoing match.
    */
-  startMatch(home: string, away: string): void {
+  public startMatch(home: string, away: string): void {
     if (home === away) {
       throw new Error('Home and Away teams must be different.');
     }
 
-    if (this._findMatch(home, away)) {
-      throw new Error('This match is already in progress.');
+    if (this._isTeamInProgress(home) || this._isTeamInProgress(away)) {
+      throw new Error('A team cannot participate in multiple ongoing matches.');
     }
 
     this.matches.unshift({ home, away, homeScore: 0, awayScore: 0 });
@@ -94,6 +94,16 @@ export class Scoreboard {
 
       return totalScoreB - totalScoreA;
     });
+  }
+
+  /**
+   * Checks if a team is already participating in an ongoing match.
+   * @param team - The team name.
+   * @returns True if the team is already in a match, false otherwise.
+   * @private
+   */
+  private _isTeamInProgress(team: string): boolean {
+    return this.matches.some((m) => m.home === team || m.away === team);
   }
 
   /**
