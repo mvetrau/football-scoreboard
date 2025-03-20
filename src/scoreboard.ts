@@ -63,7 +63,19 @@ export class Scoreboard {
     match.awayScore = awayScore;
   }
 
-  public finishMatch(home: string, away: string): void {}
+  /**
+   * Finishes a match and removes it from the scoreboard.
+   * @param home - The home team name.
+   * @param away - The away team name.
+   * @throws Error if the match is not found.
+   */
+  public finishMatch(home: string, away: string): void {
+    if (!this._findMatch(home, away)) {
+      throw new Error('Match not found.');
+    }
+
+    this.matches = this.matches.filter((m) => !(m.home === home && m.away === away));
+  }
 
   public getSummary(): Match[] {
     return this.matches; // ToDo
