@@ -49,4 +49,15 @@ describe('Football Scoreboard', () => {
   test('should not allow updating scores for a non-existing match', () => {
     expect(() => scoreboard.updateScore('USA', 'Canada', 1, 1)).toThrow('Match not found.');
   });
+
+  test('should remove a finished match from the scoreboard', () => {
+    scoreboard.startMatch('Mexico', 'Canada');
+    scoreboard.finishMatch('Mexico', 'Canada');
+
+    expect(scoreboard.getSummary()).toEqual([]);
+  });
+
+  test('should not allow finishing a non-existing match', () => {
+    expect(() => scoreboard.finishMatch('England', 'Italy')).toThrow('Match not found.');
+  });
 });
